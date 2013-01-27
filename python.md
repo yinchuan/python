@@ -40,16 +40,17 @@ dir(str)
 ### Python脚本
 * 同Bash一样Python脚本的第一行也要写上用来解释脚本的程序。中文编程中一般加上coding段，声明所用的字符编码。代码如下：
 
-```
-#!/bin/evn python
-# coding: utf8
-# 或
-#!/usr/bin/python
-# coding: utf8
-```
+    ```
+    #!/bin/evn python
+    # coding: utf8
+    # 或
+    #!/usr/bin/python
+    # coding: utf8
+    ```
 推荐第一种写法，这种方式是在环境变量中找python解释器的路径，方便多个版本的Python共存。一般系统自带的Python版本较低，但是又被其他程序依赖，升级Python后，会导致其他程序无法使用。一般会单独安装高版本的Python到/usr/local/下面。
 * Bash中用python命令打开解释器，在其中直接输入python命令执行，一般用于快速执行命令或短小代码的测试
 * python file.py
+* `python`提示符中用`execfile("/path/to/file.py")`执行脚本
 
 ### Python中调用Bash命令
 os模块提供了两个方法调用Bash命令：
@@ -337,3 +338,31 @@ sys.path    内置模块存于这个路径，第一个元素为当前路径
 import sys      调用模块   
 dir(sys)        类型为list，默认值为\$0   
 sys.argv        脚本的参数放在这个列表中   
+### urllib
+参考文档   
+* [官方文档][urllib]
+* [Python模块学习 --- urllib][urllib1]
+
+[urllib]: http://docs.python.org/2/library/urllib.html
+[urllib1]: http://blog.csdn.net/jgood/article/details/5493824
+`pythonchallenge`第4题提示用urllib,代码如下   
+```
+#!/bin/evn python
+# coding: utf8
+import urllib
+
+# pythonchallenge 第4题的url前缀
+base_url = 'http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing='
+
+# 后缀会不断变化
+url_suf = '12345'
+
+for i in range(400):
+    # 拼接成完整的url
+    v_res = urllib.urlopen(base_url + url_suf)
+    # url只返回1行字符串,最后一个单词就是下一个url的后缀
+    url_suf = v_res.read().split().pop()
+    print i, url_suf
+
+# 答案是 peak.html
+```
