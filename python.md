@@ -395,3 +395,42 @@ for i in range(400):
 
 # 答案是 peak.html
 ```
+### getopt
+C风格的命令行参数解析器
+### argparse
+2.7中新加.功能强大易用的命令行参数解析器
+### random
+生成随机数   
+`random.random()`   返回[0.0,1.0)之间的随机数   
+`random.choice(seq)`  随机返回`seq`中的一个值
+## 使用PyGObject开发Gtk3.0图形程序
+### 示例程序`helloworld.py`
+窗口中有一个button,点击之后在终端打印"hello world"   
+参考文档
+* [官方sample][helloworld]
+
+[helloworld]: https://python-gtk-3-tutorial.readthedocs.org/en/latest/introduction.html#simple-example
+```
+#!/bin/env python
+# coding: utf8
+# helloworld
+#
+
+from gi.repository import Gtk
+
+window = Gtk.Window(type=Gtk.WindowType.TOPLEVEL)
+# 连接主循环退出函数,不然窗口关闭时,进程不会退出
+window.connect("destory", Gtk.main_quit)
+
+# 按钮的回调函数
+def onButtonPressed(button):
+    print "Hello World!"
+# 生成button实例,连接回调函数,添加到window
+button = Gtk.Button("Click me!")
+button.connect("clicked", onButtonPressed)
+window.add(button)
+
+# 显示所有widget,开始主循环
+window.show_all()
+Gtk.main()
+```
