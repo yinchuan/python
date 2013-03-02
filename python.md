@@ -35,6 +35,8 @@ pydoc int
 help(file)
 # dir对象的方法列表
 dir(str)
+# 在浏览器中查看python的文档,访问 http://localhost:8000/
+$ pydoc -p 8000
 ```
 ## 运行Python
 ### Python脚本
@@ -81,6 +83,9 @@ print "%s=%s\n" % ('username','yinchuan')
 >>> dir(tuple)
 ['__add__', '__class__', '__contains__', '__delattr__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__getslice__', '__gt__', '__hash__', '__init__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'count', 'index']
 # 以'__'开始的是对象的私有方法，一般不用考虑；只看最后面的公有方法即可。
+# 如果不加参数,则打印当前module的方法和属性,可以看到当前import的模块
+>>> dir()
+['__builtins__', '__doc__', '__name__', '__package__', 'mymodule']
 ```
 ### raw_input
 获取用户输入，类似于Bash的read。
@@ -140,12 +145,21 @@ ab
 >>> print var * 3
 aaa
 ```
-常用的方法有：
+常用的方法有：   
+S.format()    返回S的format版本,S中用{}表示占位符,format()的参数依次替换
+```
+>>> "x {0} {1}".format("first", "zero")
+'x first zero'
+```
+S.join(iterable)    用S连接iterable中的中的元素,常用于合并list,tuple之类
+```
+>>> 'xx'.join(["1","2"])
+'1xx2'
+```
 ```
 "".upper "".lower
 "".isupper "".islower
 "".startswith  "".endswith
-"".join
 " ".lstrip "".rstrip "".strip
 ```
 下标切片
@@ -362,7 +376,18 @@ expect IOError,e:   # e是错误字符串
     cmd
 ```
 ## 模块
-sys.path    内置模块存于这个路径，第一个元素为当前路径
+sys.path    内置模块存于这个路径，第一个元素为当前路径   
+所谓module就是以.py结尾的python脚本,脚本中包含变量,类,函数的定义.   
+module可以用python/C写成.   
+module中的代码在import时会执行,为了加快import的速度,可以将module预编译成字节码,这样在import时会节省编译的时间.   
+如何判断module是直接执行,还是被import?可以通过`__name__`参数.
+```
+if __name__ == ‚__main__‚:
+    print(‚This program is being run by itself‚)
+else:
+    print(‚I am being imported from another module‚)
+```
+所谓`package`就是存放module的文件夹,其中包含`__init__.py`文件,表示此文件夹包含module.
 ### sys
 import sys      调用模块   
 dir(sys)        类型为list，默认值为\$0   
@@ -403,6 +428,19 @@ C风格的命令行参数解析器
 生成随机数   
 `random.random()`   返回[0.0,1.0)之间的随机数   
 `random.choice(seq)`  随机返回`seq`中的一个值
+### os
+与操作系统操作相关,比如文件操作,执行系统命令等   
+os.system(command) 执行系统命令,返回值为command的返回值
+```
+>>> print os.system('date')
+Sat Mar  2 11:29:09 CST 2013
+0
+```
+os.sep 返回系统的路径分隔符,linux默认是'/',windows默认是'\'
+```
+>>> print os.sep
+/
+```
 ## 使用PyGObject开发Gtk3.0图形程序
 ### 示例程序`helloworld.py`
 窗口中有一个button,点击之后在终端打印"hello world"   
