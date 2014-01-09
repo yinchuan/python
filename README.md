@@ -9,3 +9,5 @@ add from server
 再试一次。
 
 可耻地把url写错了！
+
+Fork之后编辑一下，提个PR试试。
