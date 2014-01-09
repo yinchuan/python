@@ -7,3 +7,5 @@
 add from server 
 
 再试一次。
+
+可耻地把url写错了！
